@@ -1,3 +1,17 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import yfinance as yf
+import os
+from datetime import datetime
+
+# ✅ Create Flask app before defining routes
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/")
+def home():
+    return "BankSmart API is running."
+
 @app.route("/api/ticker_summary")
 def ticker_summary():
     ticker = request.args.get("ticker", "").upper()
@@ -33,3 +47,7 @@ def ticker_summary():
 
     except Exception as e:
         return jsonify({"error": f"Failed to fetch data for {ticker}: {str(e)}"}), 500
+
+# ✅ Required for Render deployment
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
