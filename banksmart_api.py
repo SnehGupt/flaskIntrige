@@ -8,6 +8,19 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
+# ✅ Defensive parser for numeric values
+def parse_value(value):
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return value if value != float('inf') else None
+    if isinstance(value, str):
+        try:
+            return float(value.replace(',', '').strip())
+        except ValueError:
+            return None
+    return None
+
 @app.route("/")
 def home():
     return "BankSmart API is running."
@@ -22,9 +35,15 @@ def ticker_summary():
         stock = yf.Ticker(ticker)
         info = stock.info
 
-        current_price = info.get("currentPrice")
-        previous_close = info.get("previousClose")
-        open_price = info.get("open")
+        current_price = parse_value(info.get("currentPrice"))
+        previous_close = parse_value(info.get("previousClose"))
+        open_price = parse_value(info.get("open"))
+        market_cap = parse_value(info.get("marketCap"))
+        pe_ratio = parse_value(info.get("trailingPE"))
+        ebitda = parse_value(info.get("ebitda"))
+        revenue_growth = parse_value(info.get("revenueGrowth"))
+        tax_rate = parse_value(info.get("effectiveTaxRate"))
+
         price_change = (current_price - previous_close) if current_price and previous_close else None
         price_change_pct = (price_change / previous_close * 100) if price_change and previous_close else None
 
@@ -32,16 +51,16 @@ def ticker_summary():
             "ticker": ticker,
             "companyName": info.get("longName"),
             "exchange": info.get("exchange"),
-            "marketCap": info.get("marketCap"),
-            "ebitda": info.get("ebitda"),
+            "marketCap": market_cap,
+            "ebitda": ebitda,
             "currentPrice": current_price,
             "previousClose": previous_close,
             "open": open_price,
             "priceChange": price_change,
             "priceChangePct": price_change_pct,
-            "peRatio": info.get("trailingPE"),
-            "revenueGrowth": info.get("revenueGrowth"),
-            "taxRate": info.get("effectiveTaxRate"),
+            "peRatio": pe_ratio,
+            "revenueGrowth": revenue_growth,
+            "taxRate": tax_rate,
             "lastUpdated": datetime.now().isoformat()
         })
 
