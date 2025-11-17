@@ -70,12 +70,12 @@ def ticker_summary():
 
         logo_url = get_logo_url(info)
         ceo_name = get_ceo_name(info)
-sector = info.get("sector")
-valuation_method = None
-if sector == "Financial Services":
-    valuation_method = "DDM" if pb_ratio else "DCF"
-else:
-    valuation_method = "DCF"
+        sector = info.get("sector")
+        valuation_method = None
+        if sector == "Financial Services":
+            valuation_method = "DDM" if pb_ratio else "DCF"
+        else:
+            valuation_method = "DCF"
         return jsonify({
             "ticker": ticker,
             "companyName": info.get("longName"),
