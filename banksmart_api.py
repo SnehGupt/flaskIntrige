@@ -3,10 +3,11 @@ from flask_cors import CORS
 import yfinance as yf
 import os
 from datetime import datetime
+from google import genai
 
 app = Flask(__name__)
 CORS(app)
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+API_KEY = os.environ.get("API_KEY")
 
 # ✅ Defensive parser for numeric values
 def parse_value(value):
