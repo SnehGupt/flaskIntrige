@@ -61,6 +61,7 @@ def ticker_summary():
         market_cap = parse_value(info.get("marketCap"))
         pe_ratio = parse_value(info.get("trailingPE"))
         ebitda = parse_value(info.get("ebitda"))
+        pb_ratio = parse_value(info.get("priceToBook"))
         revenue_growth = parse_value(info.get("revenueGrowth"))
         tax_rate = parse_value(info.get("effectiveTaxRate"))
 
@@ -69,7 +70,12 @@ def ticker_summary():
 
         logo_url = get_logo_url(info)
         ceo_name = get_ceo_name(info)
-
+sector = info.get("sector")
+valuation_method = None
+if sector == "Financial Services":
+    valuation_method = "DDM" if pb_ratio else "DCF"
+else:
+    valuation_method = "DCF"
         return jsonify({
             "ticker": ticker,
             "companyName": info.get("longName"),
@@ -82,10 +88,12 @@ def ticker_summary():
             "priceChange": price_change,
             "priceChangePct": price_change_pct,
             "peRatio": pe_ratio,
+            "pbRatio": pb_ratio,
             "revenueGrowth": revenue_growth,
             "taxRate": tax_rate,
             "logoUrl": logo_url,
             "ceoName": ceo_name,
+            "valuationMethod": valuation_method, 
             "lastUpdated": datetime.now().isoformat()
         })
 
