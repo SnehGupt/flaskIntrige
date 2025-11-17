@@ -5,9 +5,11 @@ import os
 from datetime import datetime
 from google import genai
 
+API_KEY = os.environ.get("API_KEY")
+genai_client = genai.Client(api_key=API_KEY)
 app = Flask(__name__)
 CORS(app)
-API_KEY = os.environ.get("API_KEY")
+
 
 # ✅ Defensive parser for numeric values
 def parse_value(value):
