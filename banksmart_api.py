@@ -3,6 +3,7 @@ from flask_cors import CORS
 import yfinance as yf
 import os
 from datetime import datetime
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
