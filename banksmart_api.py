@@ -66,20 +66,21 @@ def ticker_summary():
         pb_ratio = parse_value(info.get("priceToBook"))
         revenue_growth = parse_value(info.get("revenueGrowth"))
         tax_rate = parse_value(info.get("effectiveTaxRate"))
+    
         # ✅ Revenue fallback
-            total_revenue = parse_value(info.get("totalRevenue"))
-            if not total_revenue:
+        total_revenue = parse_value(info.get("totalRevenue"))
+        if not total_revenue:
             try:
-            fin = stock.financials
-            if "Total Revenue" in fin.index:
-                total_revenue = parse_value(fin.loc["Total Revenue"].iloc[0])
+                fin = stock.financials
+                if "Total Revenue" in fin.index:
+                    total_revenue = parse_value(fin.loc["Total Revenue"].iloc[0])
             except Exception as e:
-            total_revenue = None
-
+                total_revenue = None
+    
         # ✅ P/S ratio fallback
         ps_ratio = parse_value(info.get("priceToSalesTrailing12Months"))
         if not ps_ratio and total_revenue and market_cap:
-        ps_ratio = market_cap / total_revenue if total_revenue != 0 else None
+            ps_ratio = market_cap / total_revenue if total_revenue != 0 else None
 
         price_change = (current_price - previous_close) if current_price and previous_close else None
         price_change_pct = (price_change / previous_close * 100) if price_change and previous_close else None
