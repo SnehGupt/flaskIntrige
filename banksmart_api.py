@@ -67,7 +67,7 @@ def ticker_summary():
 
     try:
         stock = yf.Ticker(ticker)
-        info = stock.get_info()
+        info = stock.info 
 
         current_price = parse_value(info.get("currentPrice"))
         previous_close = parse_value(info.get("previousClose"))
@@ -82,7 +82,7 @@ def ticker_summary():
         tax_rate = parse_value(info.get("effectiveTaxRate"))
 
         # ✅ Currency handling
-        currency_code = info.get("currency")
+        currency_code = info.get("currency", "")
         currency_symbol = CURRENCY_SYMBOLS.get(currency_code, "")
         
         # ✅ Revenue fallback
