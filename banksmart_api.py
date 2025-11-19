@@ -44,6 +44,20 @@ def get_ceo_name(info):
 def home():
     return "Investopedia API is running."
 
+# ✅ Currency symbol mapping
+CURRENCY_SYMBOLS = {
+    "USD": "$",
+    "INR": "₹",
+    "GBP": "£",
+    "EUR": "€",
+    "JPY": "¥",
+    "CNY": "¥",
+    "HKD": "HK$",
+    "CAD": "C$",
+    "AUD": "A$",
+    "CHF": "CHF"
+}
+
 # ✅ Main ticker summary route
 @app.route("/api/ticker_summary")
 def ticker_summary():
@@ -66,7 +80,11 @@ def ticker_summary():
         pb_ratio = parse_value(info.get("priceToBook"))
         revenue_growth = parse_value(info.get("revenueGrowth"))
         tax_rate = parse_value(info.get("effectiveTaxRate"))
-    
+
+        # ✅ Currency handling
+        currency_code = info.get("currency")
+        currency_symbol = CURRENCY_SYMBOLS.get(currency_code, "")
+        
         # ✅ Revenue fallback
         total_revenue = parse_value(info.get("totalRevenue"))
         if not total_revenue:
@@ -110,6 +128,8 @@ def ticker_summary():
             "pbRatio": pb_ratio,
             "revenueGrowth": revenue_growth,
             "taxRate": tax_rate,
+            "currencyCode": currency_code,
+            "currencySymbol": currency_symbol,
             "logoUrl": logo_url,
             "ceoName": ceo_name,
             "valuationMethod": valuation_method, 
