@@ -47,6 +47,7 @@ def home():
 CURRENCY_SYMBOLS = {
     "USD": "$",
     "INR": "₹",
+    "GBp" :"£",
     "GBP": "£",
     "EUR": "€",
     "JPY": "¥",
