@@ -42,7 +42,7 @@ def get_ceo_name(info):
 
 @app.route("/")
 def home():
-    return "BankSmart API is running."
+    return "Investopedia API is running."
 
 # ✅ Main ticker summary route
 @app.route("/api/ticker_summary")
