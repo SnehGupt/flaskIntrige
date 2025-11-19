@@ -53,7 +53,7 @@ def ticker_summary():
 
     try:
         stock = yf.Ticker(ticker)
-        info = stock.info
+        info = stock.get_info()
 
         current_price = parse_value(info.get("currentPrice"))
         previous_close = parse_value(info.get("previousClose"))
@@ -67,9 +67,9 @@ def ticker_summary():
         revenue_growth = parse_value(info.get("revenueGrowth"))
         tax_rate = parse_value(info.get("effectiveTaxRate"))
         # ✅ Revenue fallback
-    total_revenue = parse_value(info.get("totalRevenue"))
-    if not total_revenue:
-        try:
+            total_revenue = parse_value(info.get("totalRevenue"))
+            if not total_revenue:
+            try:
             fin = stock.financials
             if "Total Revenue" in fin.index:
                 total_revenue = parse_value(fin.loc["Total Revenue"].iloc[0])
