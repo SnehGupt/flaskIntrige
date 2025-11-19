@@ -44,20 +44,7 @@ def get_ceo_name(info):
 def home():
     return "Investopedia API is running."
 
-# ✅ Currency symbol mapping
-CURRENCY_SYMBOLS = {
-     "USD": "$",
-    "GBP": "£",
-    "GBp": "£",   # Pence, but still display as Pound symbol
-    "EUR": "€",
-    "INR": "₹",
-    "JPY": "¥",
-    "CNY": "¥",
-    "HKD": "HK$",
-    "CAD": "C$",
-    "AUD": "A$",
-    "CHF": "CHF"
-}
+
 
 # ✅ Main ticker summary route
 @app.route("/api/ticker_summary")
@@ -83,7 +70,13 @@ def ticker_summary():
         tax_rate = parse_value(info.get("effectiveTaxRate"))
 
         # ✅ Currency handling
+
         currency_code = info.get("currency", "")
+        CURRENCY_SYMBOLS = {
+            "USD": "$", "GBP": "£", "GBp": "£", "EUR": "€",
+            "INR": "₹", "JPY": "¥", "CNY": "¥", "HKD": "HK$",
+            "CAD": "C$", "AUD": "A$", "CHF": "CHF"
+        }
         currency_symbol = CURRENCY_SYMBOLS.get(currency_code, "")
         
         # ✅ Revenue fallback
