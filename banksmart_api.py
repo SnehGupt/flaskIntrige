@@ -57,6 +57,8 @@ def ticker_summary():
 
         current_price = parse_value(info.get("currentPrice"))
         previous_close = parse_value(info.get("previousClose"))
+        total_revenue = parse_value(info.get("totalRevenue"))
+        ps_ratio = parse_value(info.get("priceToSalesTrailing12Months"))
         open_price = parse_value(info.get("open"))
         market_cap = parse_value(info.get("marketCap"))
         pe_ratio = parse_value(info.get("trailingPE"))
@@ -82,6 +84,8 @@ def ticker_summary():
             "exchange": info.get("exchange"),
             "marketCap": market_cap,
             "ebitda": ebitda,
+            "psRatio": ps_ratio,              
+            "revenue": total_revenue,  
             "currentPrice": current_price,
             "previousClose": previous_close,
             "open": open_price,
