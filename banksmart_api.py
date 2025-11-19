@@ -46,10 +46,11 @@ def home():
 
 # ✅ Currency symbol mapping
 CURRENCY_SYMBOLS = {
-    "USD": "$",
-    "INR": "₹",
+     "USD": "$",
     "GBP": "£",
+    "GBp": "£",   # Pence, but still display as Pound symbol
     "EUR": "€",
+    "INR": "₹",
     "JPY": "¥",
     "CNY": "¥",
     "HKD": "HK$",
